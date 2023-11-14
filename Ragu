@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <class T>
+class Vehicle {
+public:
+    Vehicle(const string& make, const string& model, int year, double rentalPrice, T additionalInfo)
+        : make(make), model(model), year(year), rentalPrice(rentalPrice), additionalInfo(additionalInfo) {}
+
+    virtual void displayDetails() const {
+        cout << make << " " << model << " " << year << " "<< rentalPrice << endl;
+    }
+
+    T getAdditionalInfo() const {
+        return additionalInfo;
+    }
+
+protected:
+    string make;
+    string model;
+    int year;
+    double rentalPrice;
+    T additionalInfo;
+};
+
+class Car : public Vehicle<int> {
+public:
+    Car(const string& make, const string& model, int year, double rentalPrice, int numDoors)
+        : Vehicle(make, model, year, rentalPrice, numDoors) {}
+
+    void displayDetails() const override {
+        Vehicle::displayDetails();
+        cout << this->getAdditionalInfo() << endl;
+    }
+};
+
+class Motorcycle : public Vehicle<string> {
+public:
+    Motorcycle(const string& make, const string& model, int year, double rentalPrice, const string& type)
+        : Vehicle(make, model, year, rentalPrice, type) {}
+
+    void displayDetails() const override {
+        Vehicle::displayDetails();
+        cout << this->getAdditionalInfo() << endl;
+    }
+};
+
+int main() {
+    string carMake, carModel, motorcycleMake, motorcycleModel, motorcycleType;
+    int carYear, motorcycleYear, carNumDoors;
+    double carRentalPrice, motorcycleRentalPrice;
+    cin >> carMake >> carModel >> carYear >> carRentalPrice >> carNumDoors;
+    cin.ignore(); 
+
+    cin >> motorcycleMake >> motorcycleModel >> motorcycleYear >> motorcycleRentalPrice >> motorcycleType;
+    cin.ignore();
+
+    Car car1(carMake, carModel, carYear, carRentalPrice, carNumDoors);
+    Motorcycle motorcycle1(motorcycleMake, motorcycleModel, motorcycleYear, motorcycleRentalPrice, motorcycleType);
+
+    cout << "Vehicle Details:" << endl;
+    car1.displayDetails();
+    motorcycle1.displayDetails();
+
+    return 0;
+}
