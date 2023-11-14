@@ -1,0 +1,47 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+
+template <size_t N>
+class Profile {
+private:
+    int attributes[N];
+
+public:
+    // Constructor to initialize the attributes
+    Profile(const std::string& input) {
+        std::istringstream iss(input);
+        for (size_t i = 0; i < N; ++i) {
+            iss >> attributes[i];
+        }
+    }
+
+    // Function to calculate the compatibility score
+    int calculateCompatibilityScore(const Profile& other) const {
+        int score = 0;
+        for (size_t i = 0; i < N; ++i) {
+            if (attributes[i] == other.attributes[i]) {
+                score += 10;
+            }
+        }
+        return score;
+    }
+};
+
+int main() {
+    // Input attributes for Profile 1
+    std::string input1;
+    std::getline(std::cin, input1);
+    Profile<3> profile1(input1);
+
+    // Input attributes for Profile 2
+    std::string input2;
+    std::getline(std::cin, input2);
+    Profile<3> profile2(input2);
+
+    // Calculate compatibility score and display the result
+    int compatibilityScore = profile1.calculateCompatibilityScore(profile2);
+    std::cout << "Compatibility Score: " << compatibilityScore << std::endl;
+
+    return 0;
+}
