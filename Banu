@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+struct Item {
+    std::string name;
+    int quantity;
+    double price;
+};
+
+class ShoppingCart {
+private:
+    std::vector<Item> items;
+public:
+    void addItem(const std::string& name, int quantity, double price) {
+        items.push_back({name, quantity, price});
+    }
+    void updateQuantity(const std::string& name, int newQuantity) {
+        auto it = std::find_if(items.begin(), items.end(), [name](const Item& item) {
+            return item.name == name;
+        });
+        if (it != items.end()) {
+            it->quantity = newQuantity;
+        }
+    }
+
+    double getTotalBill() {
+        double total = 0.0;
+        for (const Item& item : items) {
+            total += item.price * item.quantity;
+        }
+        return total;
+    }
+};
+
+int main() {
+    ShoppingCart cart;
+    std::string name;
+    int quantity;
+    double price;
+    double bill;
+    char choice;
+    do {
+        std::cin >> choice;
+        switch (choice) {
+            case '1':
+                std::cin.ignore();
+                std::getline(std::cin, name);
+                std::cin >> quantity;
+                std::cin >> price;
+                cart.addItem(name, quantity, price);
+                break;
+
+            case '2':
+                std::cin.ignore();
+                std::getline(std::cin, name);
+                std::cin >> quantity;
+                cart.updateQuantity(name, quantity);
+                break;
+
+            case '3':
+                bill = cart.getTotalBill();
+                std::cout << "Total Bill: " << bill << std::endl;
+                break;
+
+            case '4':
+                std::cout << "Exiting the program.";
+                break;
+
+            default:
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
+
+    } while (choice != '4');
+    return 0;
+}
