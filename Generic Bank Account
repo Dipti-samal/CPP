@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+template <class T>
+class BankAccount {
+private:
+    T balance, interestRate;
+
+public:
+    void setBalance(T b) {
+        balance = b;
+    }
+
+    void setInterestRate(T r) {
+        interestRate = r;
+    }
+
+    T getBalance() {
+        return balance;
+    }
+
+    T getInterestRate() {
+        return interestRate;
+    }
+
+    T calculateInterest() {
+        return balance * interestRate / static_cast<T>(100);
+    }
+};
+
+int main() {
+    BankAccount<int> account;
+    int balance, interestRate;
+
+    cin >> balance;
+    account.setBalance(balance);
+
+    cin >> interestRate;
+    account.setInterestRate(interestRate);
+
+    cout << "Balance after one year: " << account.getBalance() + account.calculateInterest() << endl;
+    cout << "Interest earned after one year: " << account.calculateInterest();
+
+    return 0;
+}
