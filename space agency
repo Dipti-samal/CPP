@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+template <typename T>
+bool checkWeather() {
+    T weather;
+    cin >> weather;
+
+    if (weather >= 0 && weather < 70) {
+        cout << "Weather conditions are favorable for the launch." << endl;
+        return true;
+    } else if (weather < 0) {
+        cout << "Weather conditions are not suitable for the launch. Launch postponed." << endl;
+        return false;
+    } else {
+        cout << "Weather conditions are not suitable for the launch. Launch postponed." << endl;
+        return false;
+    }
+}
+template <typename T>
+bool runPreLaunchTests() {
+    cout << "Pre-launch tests are successful." << endl;
+    return true;
+}
+
+template <typename T>
+void fuelRocket() {
+    cout << "Rocket has been fueled up." << endl;
+}
+template <typename T>
+bool performFinalChecks() {
+    cout << "Final checks are complete." << endl;
+    return true;
+}
+void launchSatellite() {
+    cout << "Satellite launch successful!" << endl;
+}
+
+int main() {
+    bool weatherCheck = checkWeather<int>();
+    if (weatherCheck) {
+        bool testsPassed = runPreLaunchTests<bool>();
+        if (testsPassed) {
+            fuelRocket<double>();
+            bool finalChecksPassed = performFinalChecks<long>();
+
+            if (finalChecksPassed) {
+                launchSatellite();
+            } else {
+                cout << "Satellite launch aborted due to failed final checks." << endl;
+            }
+        } else {
+            cout << "Satellite launch aborted due to failed pre-launch tests." << endl;
+        }
+    }
+    return 0;
+}
