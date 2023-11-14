@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <typename T>
+class Book {
+public:
+    Book() {}
+    Book(const string& title, const string& author, bool available)
+        : title(title), author(author), available(available) {}
+    virtual void displayDetails() const {
+        cout << title << " " << author << " " << (available ? "Available" : "Not Available");
+    }
+
+    void checkout() {
+        if (available) {
+            available = false;
+            cout << "Book \"" << title << "\" is available for checkout." << "\n";
+        } else {
+            cout << "Book \"" << title << "\" is not available for checkout.";
+        }
+    }
+
+protected:
+    string title;
+    string author;
+    bool available;
+};
+
+class FictionBook : public Book<FictionBook> {
+public:
+    FictionBook() {} 
+    FictionBook(const string& title, const string& author, bool available, const string& genre)
+        : Book(title, author, available), genre(genre) {}
+    void displayDetails() const override {
+        cout << "Fiction Book Details: " << endl;
+        Book::displayDetails();
+        cout << " " << genre << endl;
+    }
+
+private:
+    string genre;
+};
+
+class NonFictionBook : public Book<NonFictionBook> {
+public:
+    NonFictionBook() {}
+    NonFictionBook(const string& title, const string& author, bool available, const string& subject)
+        : Book(title, author, available), subject(subject) {}
+    void displayDetails() const override {
+        cout << "Non-Fiction Book Details: "<< endl;
+        Book::displayDetails();
+        cout << " " << subject;
+    }
+
+private:
+    string subject;
+};
+
+int main() {
+    string title, author, genreOrSubject;
+    bool available;
+    getline(cin, title);
+    getline(cin, author);
+    cin >> available;
+    cin.ignore();
+    getline(cin, genreOrSubject);
+    FictionBook fictionBook1(title, author, available, genreOrSubject);
+    getline(cin, title);
+    getline(cin, author);
+    cin >> available;
+    cin.ignore(); 
+    getline(cin, genreOrSubject);
+    NonFictionBook nonFictionBook1(title, author, available, genreOrSubject);
+    fictionBook1.displayDetails();
+    nonFictionBook1.displayDetails();
+    cout << "\nChecking out books details: " << endl;
+    fictionBook1.checkout();
+    nonFictionBook1.checkout();
+    return 0;
+}
